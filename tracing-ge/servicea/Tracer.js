@@ -2,12 +2,14 @@ const Jaeger = require("jaeger-client");
 const { FORMAT_HTTP_HEADERS } = require("opentracing");
 
 module.exports = {
-    create
+   create
 };
 
 function create(serviceName, collectorEndpoint, logger) {
     const config = {
-       // TODO: setup config for tracer here
+      serviceName: serviceName,
+      sampler: {type: "const", param: 1},
+      reporter: {logSpans: true, collectorEndpoint}
     };
     const options = { logger };
     const tracer = Jaeger.initTracer(config, options);  
